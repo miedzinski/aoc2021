@@ -24,7 +24,12 @@ println("part1: ${gamma * epsilon}")
 
 fun part2(criteria: (List<Int>, Int) -> Int): Int =
     ((nBits - 1) downTo 0).fold(input) { acc, nthBit ->
-        if (acc.size > 1) acc.filter { it and (1 shl nthBit) == criteria(acc, nthBit) } else acc
+        if (acc.size > 1) {
+            val mask = criteria(acc, nthBit)
+            acc.filter { it and (1 shl nthBit) == mask }
+        } else {
+            acc
+        }
     }.single()
 
 val oxygen = part2 { numbers, nthBit -> mostCommon(numbers, nthBit) ?: 1 shl nthBit }
