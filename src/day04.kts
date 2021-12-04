@@ -12,7 +12,7 @@ var boards = generateSequence(::readLine).chunked(boardSize + 1) {
         .drop(1)
         .map { it.trimStart().split("\\s+".toRegex()).map(String::toInt) }
         .toList()
-        .let { Board(it) }
+        .let(::Board)
 }.toList()
 
 val wins = sequence {
@@ -23,9 +23,9 @@ val wins = sequence {
             (it.rows + it.columns).any(draws::containsAll)
         }
         boards = others
-        winningBoards.forEach {
-            yield(it.rows.flatten().filter { !draws.contains(it) }.sum() * num)
-        }
+        winningBoards.map {
+            it.rows.flatten().filterNot(draws::contains).sum() * num
+        }.also { yieldAll(it) }
     }
 }
 
