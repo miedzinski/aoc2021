@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-kotlinc -script "src/day$1.kts" < "data/input$1.txt"
+set -e
+
+day=$(printf "%02d" "$1")
+
+kotlinc -script "src/day$day.kts" < "data/input$day.txt"
